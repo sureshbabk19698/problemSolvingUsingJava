@@ -4,50 +4,47 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SpiralMatrix {
-	
-	private static void printSpiral(int[][] matrix) {
-		int tempColumn = matrix[0].length - 1;
-		int tempRow = matrix.length - 1;
 
-		int totalValues = matrix.length * matrix[0].length;
-		int visitedIndex = 0;
-		
+	private static void printSpiral(int[][] matrix) {
+		int rowBegin = 0;
+		int rowEnd = matrix.length - 1;
+
+		int columnBegin = 0;
+		int columnEnd = matrix[0].length - 1;
+
 		List<Integer> result = new ArrayList<>();
-		for (int row = 0; row <= tempRow; row++) {
+		while (rowBegin <= rowEnd && columnBegin <= columnEnd) {
 			// Horizontal Right
-			for (int col = row; col <= tempColumn; col++) {
-				visitedIndex++;
-				result.add(matrix[row][col]);
+			for (int col = columnBegin; col <= columnEnd; col++) {
+				result.add(matrix[rowBegin][col]);
 			}
+			rowBegin++;
 
 			// Vertical Down
-			for (int j = row + 1; j <= tempRow; j++) {
-				visitedIndex++;
-				result.add(matrix[j][tempColumn]);
+			for (int j = rowBegin; j <= rowEnd; j++) {
+				result.add(matrix[j][columnEnd]);
 			}
+			columnEnd--;
 
 			// Horizontal Left
-			for (int col = tempColumn - 1; col >= row; col--) {
-				visitedIndex++;
-				result.add(matrix[tempRow][col]);
+			if (rowBegin <= rowEnd) {
+				for (int col = columnEnd; col >= columnBegin; col--) {
+					result.add(matrix[rowEnd][col]);
+				}
 			}
+			rowEnd--;
 
 			// Vertical Up
-			for (int j = tempRow - 1; j > row; j--) {
-				visitedIndex++;
-				result.add(matrix[j][row]);
+			if (columnBegin <= columnEnd) {
+				for (int j = rowEnd; j >= rowBegin; j--) {
+					result.add(matrix[j][columnBegin]);
+				}
 			}
+			columnBegin++;
 
-			if (visitedIndex == totalValues) {
-				break;
-			}
-			
-			tempColumn--;
-			tempRow--;
 		}
 
 		System.out.println(result);
-		
 	}
 
 	public static void main(String[] args) {
@@ -66,5 +63,14 @@ public class SpiralMatrix {
 				{ 16, 17, 18, 19 },
 				{ 21, 22, 23, 24 } };
 		printSpiral(fiveXfour);
+		
+		int threeXfour[][] = { 
+				{ 1, 2, 3, 4 }, 
+				{ 5, 6, 7, 8 }, 
+				{ 9, 10, 11, 12 }};
+		printSpiral(threeXfour);
+
+		int oneXone[][] = { { 7 }, { 9 }, { 6 } };
+		printSpiral(oneXone);
 	}
 }
